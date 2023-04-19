@@ -33,7 +33,7 @@ private slots:
 private:
     Ui::FrmSaleOrder *ui;
     FrmExpressOrder *frmEO;
-    QCompleter *customerComp, *productComp;
+    QCompleter *customerComp, *productComp, *markComp;
 
 
 private:
@@ -41,6 +41,9 @@ private:
     void initUI();
     void addOneRow();
     void addRow(int count = 1);
+
+    void setCellWidget(int row, int column, QCompleter *comp);
+    void setCellItem(int row, int column);
 };
 
 #endif // FRMSALEORDER_H

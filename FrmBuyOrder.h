@@ -36,6 +36,8 @@ private:
     void initUI();
     void addRow(int count = 1);
     void addOneRow();
+
+    void updateTotalPrice();
 };
 
 #endif // FRMBUYORDER_H

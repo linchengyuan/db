@@ -24,6 +24,8 @@ BuyOrder *FrmBuyOrder::GetBuyOrder()
     ProductOrder *po;
     char *ptr;
 
+    updateTotalPrice();
+
     ptr = ui->dateEdit->text().toStdString().data();
     memcpy(res->date, ptr, DATE_LENGTH);
 
@@ -99,6 +101,42 @@ void FrmBuyOrder::addOneRow()
     if(item)
     {
         item->setFlags(item->flags() & (~Qt::ItemIsEditable));
+    }
+}
+
+void FrmBuyOrder::updateTotalPrice()
+{
+    QString name, tmp;
+    int count;
+    double price;
+    double totalPrice;
+    QTableWidgetItem *item;
+
+    for(int i = 0; i < ui->tableWidget->rowCount(); i++)
+    {
+        name = ui->tableWidget->item(i, 1)->text();
+        if(!name.isEmpty())
+        {
+            tmp = ui->tableWidget->item(i, 2)->text();
+            if(tmp.isEmpty())
+            {
+                continue;
+            }
+            count = tmp.toInt();
+
+            tmp = ui->tableWidget->item(i, 3)->text();
+            if(tmp.isEmpty())
+            {
+                continue;
+            }
+            price = tmp.toDouble();
+
+            totalPrice = count * price;
+
+            item = new QTableWidgetItem(QString::number(totalPrice, 'f', 2));
+            item->setFlags(item->flags() & (~Qt::ItemIsEditable));
+            ui->tableWidget->setItem(i, 4, item);
+        }
     }
 }
 

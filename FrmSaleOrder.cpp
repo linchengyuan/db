@@ -2,6 +2,7 @@
 #include "ui_FrmSaleOrder.h"
 
 #include <QPushButton>
+#include <QComboBox>
 #include "FrmExpressOrder.h"
 #include "DataPool.h"
 
@@ -37,7 +38,8 @@ void FrmSaleOrder::initUI()
 {
     frmEO = new FrmExpressOrder();
 
-
+    ui->dateEdit->setDisplayFormat("yyyyMMdd");
+    ui->dateEdit->setDate(QDate::currentDate());
 
     addRow(10);
 }
@@ -61,21 +63,36 @@ void FrmSaleOrder::addRow(int count)
     }
 }
 
+void FrmSaleOrder::setCellItem(int row, int column)
+{
+    QWidget *pWidget = ui->tableWidget->cellWidget(row, column);
+    QString text = static_cast<QLineEdit*>(pWidget)->text();
+    ui->tableWidget->removeCellWidget(row, column);
+    ui->tableWidget->setItem(row, column, new QTableWidgetItem(text));
+}
+
+void FrmSaleOrder::setCellWidget(int row, int column, QCompleter *comp)
+{
+    QString text = ui->tableWidget->item(row, column)->text();
+    QLineEdit *myLineEdit = new QLineEdit;
+    myLineEdit->setCompleter(comp);
+    myLineEdit->setText(text);
+    ui->tableWidget->setCellWidget(row, column, myLineEdit);
+}
+
 void FrmSaleOrder::on_tableWidget_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous)
 {
     int row, column;
-    QString text;
 
     if(previous)
     {
         row = previous->row();
         column = previous->column();
-        if(column == 0)
+
+
+        if(column >= 0 && column <= 2)
         {
-            QWidget *pWidget = ui->tableWidget->cellWidget(row, column);
-            text = static_cast<QLineEdit*>(pWidget)->text();
-            ui->tableWidget->removeCellWidget(row, column);
-            ui->tableWidget->setItem(row, column, new QTableWidgetItem(text));
+            setCellItem(row, column);
         }
     }
 
@@ -89,6 +106,29 @@ void FrmSaleOrder::on_tableWidget_currentItemChanged(QTableWidgetItem *current, 
             addRow();
         }
 
+
+
+        //  客户名称
+        if(column == 0)
+        {
+            setCellWidget(row, column, customerComp);
+        }
+
+        //  商品编码
+        if(column == 1)
+        {
+            setCellWidget(row, column, markComp);
+        }
+
+        //  商品名称
+        if(column == 2)
+        {
+            setCellWidget(row, column, productComp);
+        }
+
+
+
+        //  快递详情 弹出dialog
         if(column == 6)
         {
             QString name = ui->tableWidget->item(row, 0)->text();
@@ -106,8 +146,12 @@ void FrmSaleOrder::init()
 
 
     //  completer
-    QStringList customers, products;
+    QStringList customers, marks, products;
+
+    customers << "张飞" << "关羽" << "asdfw";
+
     customerComp = new QCompleter(customers, this);
+    markComp = new QCompleter(marks, this);
     productComp = new QCompleter(products, this);
 
 
