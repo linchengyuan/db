@@ -27,7 +27,7 @@
      <widget class="QLabel" name="label_2">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="text">
@@ -39,7 +39,7 @@
      <widget class="QLineEdit" name="name">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
      </widget>
@@ -48,7 +48,7 @@
      <widget class="QLabel" name="label">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="text">
@@ -57,10 +57,10 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="expressCompany">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
      </widget>
@@ -69,7 +69,7 @@
      <widget class="QLabel" name="label_3">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="text">
@@ -78,11 +78,14 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QSpinBox" name="spinBox">
+     <widget class="QSpinBox" name="count">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
+      </property>
+      <property name="maximum">
+       <number>999999</number>
       </property>
      </widget>
     </item>
@@ -90,7 +93,7 @@
      <widget class="QLabel" name="label_4">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="text">
@@ -99,11 +102,14 @@
      </widget>
     </item>
     <item row="3" column="1">
-     <widget class="QDoubleSpinBox" name="doubleSpinBox">
+     <widget class="QDoubleSpinBox" name="price">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
+      </property>
+      <property name="maximum">
+       <double>999999999.990000009536743</double>
       </property>
      </widget>
     </item>
@@ -111,7 +117,7 @@
      <widget class="QLabel" name="label_5">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="text">
@@ -120,10 +126,10 @@
      </widget>
     </item>
     <item row="4" column="1">
-     <widget class="QLineEdit" name="lineEdit_2">
+     <widget class="QLineEdit" name="phone">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
      </widget>
@@ -132,7 +138,7 @@
      <widget class="QLabel" name="label_6">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
       <property name="text">
@@ -141,10 +147,10 @@
      </widget>
     </item>
     <item row="5" column="1">
-     <widget class="QLineEdit" name="lineEdit_3">
+     <widget class="QLineEdit" name="address">
       <property name="font">
        <font>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
        </font>
       </property>
      </widget>

@@ -25,8 +25,12 @@ public:
 signals:
     void signal_ShowExpressOrder(QString name);
 
+public slots:
+    void slot_GetExpressOrder(ExpressOrder *order);
+
 private slots:
     void slot_ShowExpressOrder(QString name);
+
 
     void on_tableWidget_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous);
 

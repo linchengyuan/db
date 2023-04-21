@@ -20,34 +20,37 @@ FrmBuyOrder::~FrmBuyOrder()
 BuyOrder *FrmBuyOrder::GetBuyOrder()
 {
     BuyOrder *res = new BuyOrder();
-    DataPool *data = DataPool::GetInstance();
+    DataPool *ptr = DataPool::GetInstance();
     ProductOrder *po;
-    char *ptr;
+    std::string str;
 
-    updateTotalPrice();
 
-    ptr = ui->dateEdit->text().toStdString().data();
-    memcpy(res->date, ptr, DATE_LENGTH);
+    str = ui->dateEdit->text().toStdString();
+    memcpy_s(res->date, DATE_LENGTH, str.data(), str.length());
 
-    ptr = ui->dateEdit->text().toStdString().data();
-    res->supplier = data->GetRole(ptr);
+    str = ui->supplier->currentText().toStdString();
+    res->supplier = ptr->GetRole(str.data());
 
-    ptr = ui->dateEdit->text().toStdString().data();
-    res->transactor = data->GetRole(ptr);
+    str = ui->transactor->currentText().toStdString();
+    res->transactor = ptr->GetRole(str.data());
 
     for(int i = 0; i < ui->tableWidget->rowCount(); i++)
     {
         po = new ProductOrder();
+        po->order_type = ORDER_TYPE::BUY;
 
-        ptr = ui->tableWidget->item(i, 0)->text().toStdString().data();
-        po->product = data->GetProductByMarkID(ptr);
-
-        po->count = ui->tableWidget->item(i, 2)->text().toInt();
-        po->price = ui->tableWidget->item(i, 4)->text().toDouble();
+        str = ui->tableWidget->item(i, 0)->text().toStdString();
+        po->product = ptr->GetProductByMarkID(str.data());
 
         if(po->product)
         {
-            res->products.push_back(po);
+            if(updatePrice(i))
+            {
+                po->count = ui->tableWidget->item(i, 2)->text().toInt();
+                po->price = ui->tableWidget->item(i, 4)->text().toDouble();
+
+                res->products.push_back(po);
+            }
         }
     }
 
@@ -56,13 +59,18 @@ BuyOrder *FrmBuyOrder::GetBuyOrder()
 
 void FrmBuyOrder::initUI()
 {
-    DataPool *data = DataPool::GetInstance();
+    DataPool *ptr = DataPool::GetInstance();
 
-    QStringList lst;
-    lst << "0010" << "1000" << "0011" << "0001";
-    completer = new QCompleter(lst, this);
-    completer->setCaseSensitivity(Qt::CaseInsensitive);
-    completer->setMaxVisibleItems(10);
+    QStringList markList = ptr->GetProductMarkList(PRODUCT_TYPE::CIGARETTE);
+    markCompleter = new QCompleter(markList, this);
+    markCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    markCompleter->setMaxVisibleItems(10);
+
+    QStringList productList = ptr->GetProductList(PRODUCT_TYPE::CIGARETTE);
+    productCompleter = new QCompleter(productList, this);
+    productCompleter->setCaseSensitivity(Qt::CaseInsensitive);
+    productCompleter->setMaxVisibleItems(10);
+
 
 
 
@@ -70,8 +78,8 @@ void FrmBuyOrder::initUI()
     ui->dateEdit->setDate(QDate::currentDate());
     ui->dateEdit->setDisplayFormat("yyyyMMdd");
 
-//    ui->supplier->addItems(data->GetRoles(ROLE_TYPE::SUPPLIER));
-//    ui->transactor->addItems(data->GetRoles(ROLE_TYPE::DEFAULT));
+    ui->supplier->addItems(ptr->GetRoles(ROLE_TYPE::SUPPLIER));
+    ui->transactor->addItems(ptr->GetRoles(ROLE_TYPE::DEFAULT));
 
 
     addRow(10);
@@ -104,62 +112,95 @@ void FrmBuyOrder::addOneRow()
     }
 }
 
-void FrmBuyOrder::updateTotalPrice()
+bool FrmBuyOrder::updatePrice(int row)
 {
-    QString name, tmp;
+    QString tmp;
     int count;
     double price;
     double totalPrice;
-    QTableWidgetItem *item;
+    QString priceSTR;
 
-    for(int i = 0; i < ui->tableWidget->rowCount(); i++)
+
+
+    tmp = ui->tableWidget->item(row, 2)->text();
+    if(tmp.isEmpty())
     {
-        name = ui->tableWidget->item(i, 1)->text();
-        if(!name.isEmpty())
-        {
-            tmp = ui->tableWidget->item(i, 2)->text();
-            if(tmp.isEmpty())
-            {
-                continue;
-            }
-            count = tmp.toInt();
-
-            tmp = ui->tableWidget->item(i, 3)->text();
-            if(tmp.isEmpty())
-            {
-                continue;
-            }
-            price = tmp.toDouble();
-
-            totalPrice = count * price;
-
-            item = new QTableWidgetItem(QString::number(totalPrice, 'f', 2));
-            item->setFlags(item->flags() & (~Qt::ItemIsEditable));
-            ui->tableWidget->setItem(i, 4, item);
-        }
+        return false;
     }
+    count = tmp.toInt();
+
+    tmp = ui->tableWidget->item(row, 3)->text();
+    if(tmp.isEmpty())
+    {
+        return false;
+    }
+    price = tmp.toDouble();
+
+    totalPrice = count * price;
+
+    priceSTR = QString::number(totalPrice, 'f', 2);
+    ui->tableWidget->item(row, 4)->setText(priceSTR);
+
+    return true;
+}
+
+void FrmBuyOrder::setCellWidget(int row, int column, QCompleter *comp)
+{
+    QString text = ui->tableWidget->item(row, column)->text();
+    QLineEdit *myLineEdit = new QLineEdit;
+    myLineEdit->setCompleter(comp);
+    myLineEdit->setText(text);
+    ui->tableWidget->setCellWidget(row, column, myLineEdit);
+}
+
+QString FrmBuyOrder::setItemText(int row, int column)
+{
+    QWidget *pWidget = ui->tableWidget->cellWidget(row, column);
+    QString text = static_cast<QLineEdit*>(pWidget)->text();
+    ui->tableWidget->removeCellWidget(row, column);
+    ui->tableWidget->item(row, column)->setText(text);
+
+    return text;
 }
 
 
 void FrmBuyOrder::on_tableWidget_currentItemChanged(QTableWidgetItem *current, QTableWidgetItem *previous)
 {
     int row, column;
-    QString text;
+
 
     if(previous != nullptr)
     {
+        QString text;
+        DataPool *ptr = DataPool::GetInstance();
+
         row = previous->row();
         column = previous->column();
         if(column == 0)
         {
-            QWidget *pWidget = ui->tableWidget->cellWidget(row, column);
-            text = static_cast<QLineEdit*>(pWidget)->text();
-            ui->tableWidget->removeCellWidget(row, column);
-            ui->tableWidget->setItem(row, column, new QTableWidgetItem(text));
+            text = setItemText(row, column);
+
+            Product *tmp = ptr->GetProductByMarkID(text.toStdString().data());
+            if(tmp)
+            {
+                ui->tableWidget->item(row, 1)->setText(tmp->name);
+                delete tmp;
+                tmp = nullptr;
+            }
         }
+        else if(column == 1)
+        {
+            text = setItemText(row, column);
 
+            Product *tmp = ptr->GetProductByName(text.toStdString().data());
+            if(tmp)
+            {
+                ui->tableWidget->item(row, 0)->setText(tmp->mark);
+                delete tmp;
+                tmp = nullptr;
+            }
+        }
     }
-
     if(current != nullptr)
     {
         row = current->row();
@@ -172,11 +213,11 @@ void FrmBuyOrder::on_tableWidget_currentItemChanged(QTableWidgetItem *current, Q
 
         if(column == 0)
         {
-            text = ui->tableWidget->item(row, column)->text();
-            QLineEdit *myLineEdit = new QLineEdit;
-            myLineEdit->setCompleter(completer);
-            myLineEdit->setText(text);
-            ui->tableWidget->setCellWidget(row, column, myLineEdit);
+            setCellWidget(row, column, markCompleter);
+        }
+        else if(column == 1)
+        {
+            setCellWidget(row, column, productCompleter);
         }
     }
 }
@@ -184,6 +225,9 @@ void FrmBuyOrder::on_tableWidget_currentItemChanged(QTableWidgetItem *current, Q
 
 void FrmBuyOrder::on_buttonBox_accepted()
 {
-    GetBuyOrder();
+    DataPool *ptr = DataPool::GetInstance();
+
+    ptr->SaveBuyOrder(GetBuyOrder());
+//    close();
 }
 

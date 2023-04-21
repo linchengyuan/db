@@ -2,7 +2,6 @@
 #define FRMBUYORDER_H
 
 #include <QDialog>
-
 #include "DataStruct.h"
 #include "QTableWidget"
 #include <QCompleter>
@@ -30,14 +29,19 @@ private slots:
 
 private:
     Ui::FrmBuyOrder *ui;
-    QCompleter *completer;
+    QCompleter *markCompleter;
+    QCompleter *productCompleter;
 
 private:
     void initUI();
     void addRow(int count = 1);
     void addOneRow();
 
-    void updateTotalPrice();
+    bool updatePrice(int row);
+
+    void setCellWidget(int row, int column, QCompleter *comp);
+    QString setItemText(int row, int column);
+
 };
 
 #endif // FRMBUYORDER_H

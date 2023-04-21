@@ -16,7 +16,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Sql)
+#find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Sql)
+find_package(Qt6 COMPONENTS Sql REQUIRED)
 
 #set(PROJECT_SOURCES
 #        main.cpp
@@ -55,7 +56,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(db PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Sql)
+target_link_libraries(db PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt6::Sql)
 
 set_target_properties(db PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

@@ -30,13 +30,37 @@ SaleOrder *FrmSaleOrder::GetSaleOrder()
 
 void FrmSaleOrder::slot_ShowExpressOrder(QString name)
 {
-    frmEO->SetName(name);
+    frmEO->Clear();
+
+    int row = ui->tableWidget->currentRow();
+    QVariant tmp = ui->tableWidget->item(row, 6)->data(6);
+
+    if(tmp.isNull())
+    {
+        frmEO->SetCustomerName(name);
+    }
+    else
+    {
+        ExpressOrder order = tmp.value<ExpressOrder>();
+        frmEO->SetExpressOrder(&order);
+    }
+
+
+
+
     frmEO->showNormal();
+}
+
+void FrmSaleOrder::slot_GetExpressOrder(ExpressOrder *order)
+{
+    int row = ui->tableWidget->currentRow();
+
+    ui->tableWidget->item(row, 6)->setData(6, QVariant::fromValue(*order));
 }
 
 void FrmSaleOrder::initUI()
 {
-    frmEO = new FrmExpressOrder();
+    frmEO = new FrmExpressOrder(this);
 
     ui->dateEdit->setDisplayFormat("yyyyMMdd");
     ui->dateEdit->setDate(QDate::currentDate());
@@ -68,7 +92,7 @@ void FrmSaleOrder::setCellItem(int row, int column)
     QWidget *pWidget = ui->tableWidget->cellWidget(row, column);
     QString text = static_cast<QLineEdit*>(pWidget)->text();
     ui->tableWidget->removeCellWidget(row, column);
-    ui->tableWidget->setItem(row, column, new QTableWidgetItem(text));
+    ui->tableWidget->item(row, column)->setText(text);
 }
 
 void FrmSaleOrder::setCellWidget(int row, int column, QCompleter *comp)
