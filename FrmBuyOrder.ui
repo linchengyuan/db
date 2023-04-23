@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1080</width>
+    <width>780</width>
     <height>600</height>
    </rect>
   </property>
@@ -256,10 +256,17 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>插入</string>
+            <string>插入行</string>
            </property>
            <property name="checkable">
             <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_9">
+           <property name="text">
+            <string>清空</string>
            </property>
           </widget>
          </item>
