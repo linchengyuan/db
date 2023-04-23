@@ -15,6 +15,7 @@ private:
     static DataPool *ptr;
     QSqlDatabase db;
 
+
     QSqlQuery *idQuery;
     QSqlQuery *checkTableExitsQuery;
     QSqlQuery *createTableQuery;
@@ -26,9 +27,10 @@ private:
     QSqlQuery *productMarkQuery;        //  从product选择对应 mark 的 product
     QSqlQuery *productNameQuery;        //  从product选择对应 name 的 product
     QSqlQuery *productAddQuery;         //  添加商品种类
-    QSqlQuery *stockAddQuery;
-    QSqlQuery *stockQuery;
-    QSqlQuery *stockUpdateQuery;
+    QSqlQuery *stockAddQuery;           //  插入库存种类
+    QSqlQuery *stockQuery;              //  库存
+    QSqlQuery *stockUpdateQuery;        //  库存更新
+    QSqlQuery *expressQuery;            //  快递列表
 
 private:
     DataPool();

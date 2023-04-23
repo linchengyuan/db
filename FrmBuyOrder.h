@@ -2,6 +2,7 @@
 #define FRMBUYORDER_H
 
 #include <QDialog>
+#include <QMenu>
 #include "DataStruct.h"
 #include "QTableWidget"
 #include <QCompleter>
@@ -27,10 +28,14 @@ private slots:
 
     void on_buttonBox_accepted();
 
+    void on_tableWidget_customContextMenuRequested(const QPoint &pos);
+
 private:
     Ui::FrmBuyOrder *ui;
+    QMenu *tableMenu;
     QCompleter *markCompleter;
     QCompleter *productCompleter;
+    QStringList markList, productList;
 
 private:
     void initUI();
@@ -39,7 +44,7 @@ private:
 
     bool updatePrice(int row);
 
-    void setCellWidget(int row, int column, QCompleter *comp);
+    void setCellWidget(int row, int column, QCompleter *comp, QStringList &strs);
     QString setItemText(int row, int column);
 
 };

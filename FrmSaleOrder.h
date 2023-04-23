@@ -47,7 +47,7 @@ private:
     void addRow(int count = 1);
 
     void setCellWidget(int row, int column, QCompleter *comp);
-    void setCellItem(int row, int column);
+    void setItemText(int row, int column);
 };
 
 #endif // FRMSALEORDER_H

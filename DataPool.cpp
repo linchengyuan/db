@@ -111,9 +111,6 @@ void DataPool::initDB()
         sql = sqls[i + 1];
         createTable(tableName, sql);
     }
-
-
-
 }
 
 void DataPool::initQuery()
@@ -165,6 +162,17 @@ void DataPool::initQuery()
     }
 
 
+    //  express
+    {
+        expressQuery = new QSqlQuery();
+        success = expressQuery->prepare("SELECT id, name FROM express");
+        if(!success)
+        {
+            delete expressQuery;
+            expressQuery = nullptr;
+            qDebug() << "expressQuery创建失败";
+        }
+    }
 
 
     //  buy order
@@ -497,7 +505,18 @@ void DataPool::AddProductList(std::vector<Product *> products)
 
 QStringList DataPool::GetExpressList()
 {
+    QStringList res;
 
+    if(expressQuery)
+    {
+        expressQuery->exec();
+        while(expressQuery->next())
+        {
+            res << expressQuery->value(1).toString();
+        }
+    }
+
+    return res;
 }
 
 Express *DataPool::GetExpressByName(char *name)

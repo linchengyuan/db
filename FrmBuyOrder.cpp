@@ -1,6 +1,7 @@
 #include "FrmBuyOrder.h"
 #include "ui_FrmBuyOrder.h"
 #include <QLineEdit>
+#include <qcombobox>
 #include "DataPool.h"
 
 FrmBuyOrder::FrmBuyOrder(QWidget *parent) :
@@ -61,20 +62,21 @@ void FrmBuyOrder::initUI()
 {
     DataPool *ptr = DataPool::GetInstance();
 
-    QStringList markList = ptr->GetProductMarkList(PRODUCT_TYPE::CIGARETTE);
+    markList = ptr->GetProductMarkList(PRODUCT_TYPE::CIGARETTE);
     markCompleter = new QCompleter(markList, this);
     markCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     markCompleter->setMaxVisibleItems(10);
 
-    QStringList productList = ptr->GetProductList(PRODUCT_TYPE::CIGARETTE);
+    productList = ptr->GetProductList(PRODUCT_TYPE::CIGARETTE);
     productCompleter = new QCompleter(productList, this);
     productCompleter->setCaseSensitivity(Qt::CaseInsensitive);
     productCompleter->setMaxVisibleItems(10);
 
 
+    //  自动列宽
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
-
-
+    //  日期控件显示
     ui->dateEdit->setDate(QDate::currentDate());
     ui->dateEdit->setDisplayFormat("yyyyMMdd");
 
@@ -144,19 +146,21 @@ bool FrmBuyOrder::updatePrice(int row)
     return true;
 }
 
-void FrmBuyOrder::setCellWidget(int row, int column, QCompleter *comp)
+void FrmBuyOrder::setCellWidget(int row, int column, QCompleter *comp, QStringList &strs)
 {
     QString text = ui->tableWidget->item(row, column)->text();
-    QLineEdit *myLineEdit = new QLineEdit;
-    myLineEdit->setCompleter(comp);
-    myLineEdit->setText(text);
-    ui->tableWidget->setCellWidget(row, column, myLineEdit);
+    QComboBox *tmp = new QComboBox;
+    tmp->setEditable(true);
+    tmp->addItems(strs);
+    tmp->setCompleter(comp);
+    tmp->setCurrentText(text);
+    ui->tableWidget->setCellWidget(row, column, tmp);
 }
 
 QString FrmBuyOrder::setItemText(int row, int column)
 {
     QWidget *pWidget = ui->tableWidget->cellWidget(row, column);
-    QString text = static_cast<QLineEdit*>(pWidget)->text();
+    QString text = static_cast<QComboBox*>(pWidget)->currentText();
     ui->tableWidget->removeCellWidget(row, column);
     ui->tableWidget->item(row, column)->setText(text);
 
@@ -213,11 +217,11 @@ void FrmBuyOrder::on_tableWidget_currentItemChanged(QTableWidgetItem *current, Q
 
         if(column == 0)
         {
-            setCellWidget(row, column, markCompleter);
+            setCellWidget(row, column, markCompleter, markList);
         }
         else if(column == 1)
         {
-            setCellWidget(row, column, productCompleter);
+            setCellWidget(row, column, productCompleter, productList);
         }
     }
 }
@@ -229,5 +233,11 @@ void FrmBuyOrder::on_buttonBox_accepted()
 
     ptr->SaveBuyOrder(GetBuyOrder());
 //    close();
+}
+
+
+void FrmBuyOrder::on_tableWidget_customContextMenuRequested(const QPoint &pos)
+{
+    tableMenu->exec(QCursor::pos());
 }
 

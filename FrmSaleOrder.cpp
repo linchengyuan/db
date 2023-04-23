@@ -1,6 +1,7 @@
 #include "FrmSaleOrder.h"
 #include "ui_FrmSaleOrder.h"
 
+#include <QLineEdit>
 #include <QPushButton>
 #include <QComboBox>
 #include "FrmExpressOrder.h"
@@ -87,7 +88,7 @@ void FrmSaleOrder::addRow(int count)
     }
 }
 
-void FrmSaleOrder::setCellItem(int row, int column)
+void FrmSaleOrder::setItemText(int row, int column)
 {
     QWidget *pWidget = ui->tableWidget->cellWidget(row, column);
     QString text = static_cast<QLineEdit*>(pWidget)->text();
@@ -116,7 +117,7 @@ void FrmSaleOrder::on_tableWidget_currentItemChanged(QTableWidgetItem *current, 
 
         if(column >= 0 && column <= 2)
         {
-            setCellItem(row, column);
+            setItemText(row, column);
         }
     }
 

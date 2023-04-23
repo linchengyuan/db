@@ -32,7 +32,7 @@ void FrmExpressOrder::Clear()
 {
     ui->phone->clear();
     ui->address->clear();
-    ui->expressCompany->clear();
+    ui->expressCompany->clearEditText();
     ui->count->clear();
     ui->price->clear();
 }
@@ -64,6 +64,9 @@ ExpressOrder *FrmExpressOrder::GetExpressData()
 void FrmExpressOrder::init()
 {
     connect(this, SIGNAL(signal_PopExpressOrder(ExpressOrder*)), this->parent(), SLOT(slot_GetExpressOrder(ExpressOrder*)));
+
+    DataPool *ptr = DataPool::GetInstance();
+    ui->expressCompany->addItems(ptr->GetExpressList());
 }
 
 void FrmExpressOrder::on_buttonBox_accepted()
