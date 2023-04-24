@@ -6,136 +6,216 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>751</width>
-    <height>541</height>
+    <width>600</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
-    <widget class="QGroupBox" name="groupBox_4">
-     <property name="title">
-      <string>快递信息</string>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>1</number>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QListView" name="listView"/>
-      </item>
-      <item>
-       <widget class="QTableWidget" name="tableWidget">
-        <column>
-         <property name="text">
-          <string>商品编号</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>商品名称</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>数量</string>
-         </property>
-        </column>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>已打包快递</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QListWidget" name="listWidget"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>未打包商品</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QTableWidget" name="tableWidget">
+         <column>
+          <property name="text">
+           <string>商品名称</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>数量</string>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox">
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>当前操作对象</string>
+      <string>信息预览</string>
      </property>
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>快递公司</string>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0" colspan="2">
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>商品</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QTableWidget" name="tableWidget_2">
+           <column>
+            <property name="text">
+             <string>商品编码</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>商品名称</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>数量</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="comboBox">
-        <property name="editable">
-         <bool>true</bool>
+      <item row="1" column="0" rowspan="2">
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="title">
+         <string>快递</string>
         </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>收件人</string>
-        </property>
+        <layout class="QFormLayout" name="formLayout">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>快递公司</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="comboBox">
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>运单号</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEdit_4"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>包裹数量</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="spinBox"/>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>运费</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>状态</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QComboBox" name="comboBox_2">
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="lineEdit"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>电话</string>
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="title">
+         <string>收件人</string>
         </property>
+        <layout class="QFormLayout" name="formLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>收件人</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="lineEdit"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>电话</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="lineEdit_2"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>地址</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLineEdit" name="lineEdit_3"/>
+         </item>
+        </layout>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit_2"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>地址</string>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="title">
+         <string>操作</string>
         </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="lineEdit_3"/>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>包裹数量</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QSpinBox" name="spinBox"/>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>运费</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QGroupBox" name="groupBox_3">
-     <property name="title">
-      <string>操作</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QPushButton" name="pushButton">
-        <property name="text">
-         <string>退回</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_2">
-        <property name="text">
-         <string>扣留</string>
-        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>添加</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="text">
+            <string>删除</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
